@@ -15,4 +15,6 @@ public class ErrorMessages {
     public static final String TASK_DESCRIPTION_EMPTY_ERROR = "The description cannot be empty.";
     public static final String TASK_DESCRIPTION_SHORT_ERROR = "The description must be at least 10 characters long.";
     public static final String TASK_DESCRIPTION_LONG_ERROR = "The description must not exceed 500 characters.";
+    public static final String TASK_NOT_FOUND_ERROR = "The description must not exceed 500 characters.";
+
 }

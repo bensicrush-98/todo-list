@@ -47,7 +47,7 @@ public class UserController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> getUserInfo(@RequestHeader("Authorization") String token){
-        UserDTO currentUser = userService.getCurrentUser(token);
+        UserDTO currentUser = userService.getCurrentUser(token.split("Bearer")[1]);
         return new ResponseEntity<UserDTO>(currentUser,HttpStatus.OK);
     }
 

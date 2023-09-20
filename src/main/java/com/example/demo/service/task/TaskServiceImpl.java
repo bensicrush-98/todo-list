@@ -4,9 +4,11 @@ import com.example.demo.auth.JwtProvider;
 import com.example.demo.constants.ErrorMessages;
 import com.example.demo.dto.task.TaskCreationDTO;
 import com.example.demo.dto.task.TaskDTO;
+import com.example.demo.dto.task.TaskUpdateDTO;
 import com.example.demo.entity.Task;
 import com.example.demo.entity.User;
 import com.example.demo.exceptions.task.InvalidTaskFieldException;
+import com.example.demo.exceptions.task.TaskNotFoundException;
 import com.example.demo.mapper.TaskMapper;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.service.user.UserResolver;
@@ -47,5 +49,17 @@ public class TaskServiceImpl implements  TaskService{
         User user = userResolver.getUserFromToken(token);
         List<Task> tasks = taskRepository.findAllByUser(user);
         return tasks.stream().map(TaskMapper::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public TaskDTO updateTask(String token, TaskUpdateDTO taskUpdateDTO){
+        userResolver.getUserFromToken(token);
+        Task task = taskRepository.findById(taskUpdateDTO.getId()).orElseThrow(TaskNotFoundException::new);
+        taskUpdateDTO.getTitle().ifPresent(task::setTitle);
+        taskUpdateDTO.getDescription().ifPresent(task::setDescription);
+        taskUpdateDTO.getDueDate().ifPresent(task::setDueDate);
+        taskUpdateDTO.getTaskStatus().ifPresent(task::setStatus);
+        taskRepository.save(task);
+        return TaskMapper.toDTO(task);
     }
 }

@@ -13,6 +13,7 @@ public class TaskCreationDTO {
     @Size(max = 500, message = "Description should not exceed 500 characters.")
     private String description;
     @Future(message = "Due date must be in the future.")
+    @NotNull(message = "Due date must be specified.")
     private LocalDateTime dueDate;
 
     public TaskCreationDTO(){
